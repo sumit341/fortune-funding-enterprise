@@ -1,0 +1,43 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./frontend-e2e"
+    },
+    {
+      "path": "./frontend"
+    },
+    {
+      "path": "./backend"
+    },
+    {
+      "path": "./ui"
+    },
+    {
+      "path": "./types"
+    },
+    {
+      "path": "./utils"
+    },
+    {
+      "path": "./config"
+    },
+    {
+      "path": "./database"
+    },
+    {
+      "path": "./auth"
+    },
+    {
+      "path": "./validation"
+    },
+    {
+      "path": "./logger"
+    },
+    {
+      "path": "./api-client"
+    }
+  ]
+}
