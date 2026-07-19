@@ -3,12 +3,10 @@ import {
 } from 'express';
 
 
-
 import {
   registerSchema,
   loginSchema,
 } from './auth.schema.js';
-
 
 
 import {
@@ -26,42 +24,54 @@ export const authRouter =
 
 
 
-
 authRouter.post(
   '/register',
-  async (req, res) => {
+  async (
+    req,
+    res,
+    next
+  ) => {
+
+    try {
+
+      const input =
+        registerSchema.parse(
+          req.body
+        );
 
 
-    const input =
-      registerSchema.parse(
-        req.body
-      );
+      const user =
+        await registerUser(
+          input
+        );
 
 
+      res
+        .status(201)
+        .json({
 
-    const user =
-      await registerUser(
-        input
-      );
+          success:true,
+
+          message:
+            'User registered',
+
+          user,
+
+        });
+
+      return;
 
 
+    } catch(error) {
 
-    return res
-      .status(201)
-      .json({
+      next(error);
 
-        message:
-          'User registered',
+      return;
 
-        user,
-
-      });
-
+    }
 
   }
 );
-
-
 
 
 
@@ -70,32 +80,49 @@ authRouter.post(
 
 authRouter.post(
   '/login',
-  async (req, res) => {
+  async (
+    req,
+    res,
+    next
+  ) => {
+
+    try {
 
 
-    const input =
-      loginSchema.parse(
-        req.body
-      );
+      const input =
+        loginSchema.parse(
+          req.body
+        );
 
 
-
-    const result =
-      await loginUser(
-        input
-      );
-
+      const result =
+        await loginUser(
+          input
+        );
 
 
-    return res.json(
-      result
-    );
+      res.json({
 
+        success:true,
+
+        ...result,
+
+      });
+
+
+      return;
+
+
+    } catch(error) {
+
+      next(error);
+
+      return;
+
+    }
 
   }
 );
-
-
 
 
 
@@ -105,51 +132,67 @@ authRouter.post(
 
 authRouter.post(
   '/refresh',
-  async (req, res) => {
+  async (
+    req,
+    res,
+    next
+  ) => {
+
+    try {
+
+
+      const {
+        refreshToken,
+      } = req.body;
 
 
 
-    const {
-      refreshToken,
-    } = req.body;
+      if(!refreshToken){
+
+        res
+          .status(400)
+          .json({
+
+            success:false,
+
+            message:
+              'Refresh token required',
+
+          });
+
+        return;
+
+      }
 
 
 
+      const result =
+        await refreshAccessToken(
+          refreshToken
+        );
 
 
-    if (!refreshToken) {
+
+      res.json({
+
+        success:true,
+
+        ...result,
+
+      });
 
 
-      return res
-        .status(400)
-        .json({
+      return;
 
-          message:
-            'Refresh token required',
 
-        });
 
+    } catch(error) {
+
+      next(error);
+
+      return;
 
     }
-
-
-
-
-
-
-    const result =
-      await refreshAccessToken(
-        refreshToken
-      );
-
-
-
-
-
-    return res.json(
-      result
-    );
-
 
   }
 );
@@ -160,56 +203,69 @@ authRouter.post(
 
 
 
-
-
 authRouter.post(
   '/logout',
-  async (req, res) => {
+  async (
+    req,
+    res,
+    next
+  ) => {
+
+    try {
+
+
+      const {
+        refreshToken,
+      } = req.body;
 
 
 
-    const {
-      refreshToken,
-    } = req.body;
+      if(!refreshToken){
+
+        res
+          .status(400)
+          .json({
+
+            success:false,
+
+            message:
+              'Refresh token required',
+
+          });
+
+        return;
+
+      }
 
 
 
+      const result =
+        await logoutUser(
+          refreshToken
+        );
 
 
-    if (!refreshToken) {
+
+      res.json({
+
+        success:true,
+
+        ...result,
+
+      });
 
 
-      return res
-        .status(400)
-        .json({
+      return;
 
-          message:
-            'Refresh token required',
 
-        });
 
+    } catch(error) {
+
+      next(error);
+
+      return;
 
     }
-
-
-
-
-
-
-    const result =
-      await logoutUser(
-        refreshToken
-      );
-
-
-
-
-
-
-    return res.json(
-      result
-    );
-
 
   }
 );

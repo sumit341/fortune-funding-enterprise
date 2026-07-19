@@ -38,6 +38,12 @@
     },
     {
       "path": "./api-client"
+    },
+    {
+      "path": "./users"
+    },
+    {
+      "path": "./common"
     }
   ]
 }

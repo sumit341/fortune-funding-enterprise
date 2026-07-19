@@ -4,14 +4,43 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 
-import { healthRouter } from '../routes/health.js';
-import { userRouter } from '../routes/user.js';
-import { authRouter } from '../modules/auth/auth.routes.js';
-import { errorHandler } from '../middleware/error-handler.js';
+
+import {
+  healthRouter,
+} from '../routes/health.js';
+
+
+import {
+  usersRouter,
+} from '../modules/users/users.routes.js';
+
+
+import {
+  authRouter,
+} from '../modules/auth/auth.routes.js';
+
+
+import {
+  errorHandler,
+} from '../middleware/error-handler.js';
+
+
+import {
+  requestIdMiddleware,
+} from '../middleware/request-id.js';
+
 
 
 export function createApp() {
-  const app = express();
+
+  const app =
+    express();
+
+
+
+  app.use(
+    requestIdMiddleware
+  );
 
 
   app.use(
@@ -21,8 +50,11 @@ export function createApp() {
 
   app.use(
     cors({
-      origin: true,
-      credentials: true,
+
+      origin:true,
+
+      credentials:true,
+
     })
   );
 
@@ -39,7 +71,9 @@ export function createApp() {
 
   app.use(
     express.urlencoded({
-      extended: true,
+
+      extended:true,
+
     })
   );
 
@@ -49,15 +83,24 @@ export function createApp() {
   );
 
 
+
   app.get(
     '/',
-    (_req, res) => {
+    (_req,res)=>{
+
       res.json({
-        name: 'Fortune Funding API',
-        status: 'running',
+
+        name:
+          'Fortune Funding API',
+
+        status:
+          'running',
+
       });
+
     }
   );
+
 
 
   app.use(
@@ -66,16 +109,19 @@ export function createApp() {
   );
 
 
+
   app.use(
     '/api/auth',
     authRouter
   );
 
 
+
   app.use(
     '/api/users',
-    userRouter
+    usersRouter
   );
+
 
 
   app.use(
@@ -83,5 +129,7 @@ export function createApp() {
   );
 
 
+
   return app;
+
 }

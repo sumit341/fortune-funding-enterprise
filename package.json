@@ -74,7 +74,9 @@
     "auth",
     "validation",
     "logger",
-    "api-client"
+    "api-client",
+    "users",
+    "common"
   ],
   "dependencies": {
     "express": "^5.1.0",

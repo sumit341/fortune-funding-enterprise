@@ -4,30 +4,64 @@ import type {
   NextFunction,
 } from 'express';
 
+import {
+  AppError,
+} from '@fortune-funding/common';
+
+import {
+  logger,
+} from '@fortune-funding/logger';
+
 
 export function errorHandler(
-  err: any,
-  _req: Request,
+  error: unknown,
+  req: Request,
   res: Response,
   _next: NextFunction
 ) {
 
-  console.error(
-    '🔥 ERROR:',
-    err
+
+  logger.error(
+    {
+      error,
+      requestId:
+        req.requestId,
+    },
+    'Request failed'
   );
 
 
-  res.status(
-    err.statusCode || 500
-  ).json({
-    message:
-      err.message ||
-      'Internal Server Error',
+  if(error instanceof AppError) {
 
-    stack:
-      process.env.NODE_ENV === 'development'
-        ? err.stack
-        : undefined,
+    return res.status(
+      error.statusCode
+    ).json({
+
+      success:false,
+
+      error:{
+        code:error.code,
+        message:error.message,
+        details:error.details,
+      },
+
+      requestId:
+        req.requestId,
+    });
+
+  }
+
+
+  return res.status(500).json({
+
+    success:false,
+
+    error:{
+      code:'INTERNAL_ERROR',
+      message:'Internal server error',
+    },
+
+    requestId:
+      req.requestId,
   });
 }
