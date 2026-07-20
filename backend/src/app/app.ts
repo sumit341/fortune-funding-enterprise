@@ -18,9 +18,9 @@ import {
 
 import {
   applySecurity,
-} from '../middleware/security.js';
+} from '../middleware/security/security.js';
 
-export function createApp(){
+export function createApp() {
 
   const app =
     express();
@@ -30,9 +30,7 @@ export function createApp(){
   );
 
   app.use(
-    express.json({
-      limit: '1mb',
-    })
+    express.json()
   );
 
   app.use(
