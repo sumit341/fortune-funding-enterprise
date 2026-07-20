@@ -1,6 +1,11 @@
 import { z } from 'zod';
 
+import {
+  UserRole,
+} from '@fortune-funding/common';
+
 export const createUserSchema = z.object({
+
   name: z
     .string()
     .trim()
@@ -18,16 +23,16 @@ export const createUserSchema = z.object({
     .max(100),
 
   role: z
-    .enum([
-      'user',
-      'admin',
-    ])
-    .default('user'),
+    .nativeEnum(UserRole)
+    .default(UserRole.USER),
 
   isActive: z
     .boolean()
     .default(true),
+
 });
 
 export type CreateUserDto =
-  z.infer<typeof createUserSchema>;
+  z.infer<
+    typeof createUserSchema
+  >;

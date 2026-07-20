@@ -12,6 +12,9 @@
   "references": [
     {
       "path": "../payments/tsconfig.lib.json"
+    },
+    {
+      "path": "../common/tsconfig.lib.json"
     }
   ],
   "exclude": [
