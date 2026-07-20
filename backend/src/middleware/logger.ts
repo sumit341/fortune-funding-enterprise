@@ -1,22 +1,32 @@
-import pinoHttp from 'pino-http';
+import type {
+  Request,
+  Response,
+  NextFunction,
+} from 'express';
+
 
 import {
   logger,
 } from '@fortune-funding/logger';
 
 
-export const loggerMiddleware =
-  pinoHttp({
 
-    logger,
+export function loggerMiddleware(
+  req: Request,
+  _res: Response,
+  next: NextFunction
+): void {
 
-    customProps(req) {
 
-      return {
-        requestId:
-          (req as any).requestId,
-      };
-
+  logger.info(
+    {
+      method: req.method,
+      url: req.originalUrl,
     },
+    'Incoming request'
+  );
 
-  });
+
+  next();
+
+}

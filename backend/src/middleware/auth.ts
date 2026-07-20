@@ -1,65 +1,132 @@
-import type { Request, Response, NextFunction } from 'express';
+import type {
+  Request,
+  Response,
+  NextFunction,
+} from 'express';
 
-import { verifyAccessToken } from '@fortune-funding/auth';
+
+import {
+  verifyAccessToken,
+} from '@fortune-funding/auth';
+
 
 
 export interface AuthRequest extends Request {
+
   user?: {
-    userId: string;
+
+    userId:string;
+
+    role:string;
+
   };
+
 }
 
 
+
 export function authMiddleware(
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-): void {
 
-  const authHeader = req.headers.authorization;
+  req:Request,
+
+  res:Response,
+
+  next:NextFunction
+
+):void {
 
 
-  if (!authHeader) {
+  const authReq =
+    req as AuthRequest;
+
+
+
+  const authHeader =
+    req.headers.authorization;
+
+
+
+  if(!authHeader){
+
     res.status(401).json({
-      message: 'Authorization header missing',
+
+      message:
+        'Authorization header missing',
+
     });
+
     return;
+
   }
 
 
-  const parts = authHeader.split(' ');
+
+  const parts =
+    authHeader.split(' ');
 
 
-  if (parts.length !== 2 || parts[0] !== 'Bearer') {
+
+  if(
+    parts.length !== 2 ||
+    parts[0] !== 'Bearer'
+  ){
+
     res.status(401).json({
-      message: 'Invalid authorization format',
+
+      message:
+        'Invalid authorization format',
+
     });
+
     return;
+
   }
 
 
-  const token = parts[1];
+
+  const token =
+    parts[1];
+
 
 
   try {
 
-    const payload = verifyAccessToken(token);
+
+    const payload =
+      verifyAccessToken(
+        token
+      );
 
 
-    req.user = {
-      userId: payload.userId,
+
+    authReq.user = {
+
+      userId:
+        payload.userId,
+
+      role:
+        payload.role ?? 'user',
+
     };
 
 
-    next();
-    return;
 
-  } catch (error) {
+    next();
+
+
+
+  } catch(error){
+
 
     res.status(401).json({
-      message: 'Invalid or expired token',
+
+      message:
+        'Invalid or expired token',
+
     });
 
-    return;
+
   }
+
+
 }

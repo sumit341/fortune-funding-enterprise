@@ -44,6 +44,15 @@
     },
     {
       "path": "./common"
+    },
+    {
+      "path": "./challenges"
+    },
+    {
+      "path": "./orders"
+    },
+    {
+      "path": "./payments"
     }
   ]
 }

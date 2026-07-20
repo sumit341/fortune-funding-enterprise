@@ -15,67 +15,124 @@ import {
 } from '@fortune-funding/auth';
 
 
+import {
+  config,
+} from '@fortune-funding/config';
+
+
+
+
 
 interface RegisterInput {
-  name: string;
-  email: string;
-  password: string;
+
+  name:string;
+
+  email:string;
+
+  password:string;
+
 }
+
+
 
 
 
 interface LoginInput {
-  email: string;
-  password: string;
+
+  email:string;
+
+  password:string;
+
 }
 
 
 
 
-function getRefreshExpiryDate(): Date {
+
+
+
+function getRefreshExpiryDate():Date {
+
+
+  const expires =
+    config.jwt.refreshExpiresIn;
+
+
+
+  const days =
+    Number(
+      expires.replace(
+        'd',
+        ''
+      )
+    );
+
+
 
   return new Date(
-    Date.now() +
-      7 *
-      24 *
-      60 *
-      60 *
-      1000
+
+    Date.now()
+    +
+    days *
+    24 *
+    60 *
+    60 *
+    1000
+
   );
 
+
 }
+
+
+
+
 
 
 
 
 
 export async function registerUser(
-  data: RegisterInput
+  data:RegisterInput
 ) {
 
 
   const existingUser =
     await UserModel.findOne({
-      email: data.email,
+
+      email:data.email,
+
     });
 
 
 
-  if (existingUser) {
+  if(existingUser){
+
 
     throw new Error(
+
       'Email already registered'
+
     );
+
 
   }
 
 
 
 
+
+
+
   const passwordHash =
     await hashPassword(
+
       data.password
+
     );
+
+
+
 
 
 
@@ -83,9 +140,9 @@ export async function registerUser(
   const user =
     await UserModel.create({
 
-      name: data.name,
+      name:data.name,
 
-      email: data.email,
+      email:data.email,
 
       passwordHash,
 
@@ -94,23 +151,34 @@ export async function registerUser(
 
 
 
+
+
+
   return {
 
-    id: user._id.toString(),
+    id:
+      user._id.toString(),
 
-    name: user.name,
+    name:
+      user.name,
 
-    email: user.email,
+    email:
+      user.email,
 
-    role: user.role,
+    role:
+      user.role,
 
-    isActive: user.isActive,
+    isActive:
+      user.isActive,
 
-    createdAt: user.createdAt,
+    createdAt:
+      user.createdAt,
 
   };
 
+
 }
+
 
 
 
@@ -120,47 +188,71 @@ export async function registerUser(
 
 
 export async function loginUser(
-  data: LoginInput
+  data:LoginInput
 ) {
 
 
   const user =
     await UserModel
       .findOne({
-        email: data.email,
+
+        email:data.email,
+
       })
       .select('+passwordHash');
 
 
 
 
-  if (!user) {
+
+
+
+  if(!user){
+
 
     throw new Error(
+
       'Invalid email or password'
+
     );
 
+
   }
+
+
+
 
 
 
 
   const valid =
     await verifyPassword(
+
       data.password,
+
       user.passwordHash
+
     );
 
 
 
 
-  if (!valid) {
+
+
+
+  if(!valid){
+
 
     throw new Error(
+
       'Invalid email or password'
+
     );
 
+
   }
+
+
 
 
 
@@ -168,8 +260,14 @@ export async function loginUser(
 
   const payload = {
 
+
     userId:
       user._id.toString(),
+
+
+    role:
+      user.role,
+
 
   };
 
@@ -177,27 +275,29 @@ export async function loginUser(
 
 
 
+
+
   const accessToken =
     signAccessToken(
+
       payload
+
     );
+
+
+
 
 
 
 
   const refreshToken =
     signRefreshToken(
+
       payload
+
     );
 
 
-
-
-
-  const tokenHash =
-    await hashToken(
-      refreshToken
-    );
 
 
 
@@ -205,13 +305,22 @@ export async function loginUser(
 
   await RefreshTokenModel.create({
 
+
     userId:
       user._id,
 
-    tokenHash,
+
+    tokenHash:
+      await hashToken(
+
+        refreshToken
+
+      ),
+
 
     expiresAt:
       getRefreshExpiryDate(),
+
 
   });
 
@@ -224,22 +333,28 @@ export async function loginUser(
   return {
 
 
-    user: {
+    user:{
+
 
       id:
         user._id.toString(),
 
+
       name:
         user.name,
+
 
       email:
         user.email,
 
+
       role:
         user.role,
 
+
       isActive:
         user.isActive,
+
 
     },
 
@@ -248,6 +363,7 @@ export async function loginUser(
 
 
     refreshToken,
+
 
 
   };
@@ -264,15 +380,21 @@ export async function loginUser(
 
 
 export async function refreshAccessToken(
-  refreshToken: string
-) {
 
+  refreshToken:string
+
+) {
 
 
   const payload =
     verifyRefreshToken(
+
       refreshToken
+
     );
+
+
+
 
 
 
@@ -288,13 +410,23 @@ export async function refreshAccessToken(
 
 
 
-  if (!storedToken) {
+
+
+
+  if(!storedToken){
+
 
     throw new Error(
+
       'Refresh token revoked'
+
     );
 
+
   }
+
+
+
 
 
 
@@ -311,13 +443,22 @@ export async function refreshAccessToken(
 
 
 
-  if (!valid) {
+
+
+
+  if(!valid){
+
 
     throw new Error(
+
       'Invalid refresh token'
+
     );
 
+
   }
+
+
 
 
 
@@ -335,11 +476,16 @@ export async function refreshAccessToken(
 
 
 
+
   const newRefreshToken =
     signRefreshToken({
 
       userId:
         payload.userId,
+
+
+      role:
+        payload.role,
 
     });
 
@@ -348,20 +494,28 @@ export async function refreshAccessToken(
 
 
 
+
   await RefreshTokenModel.create({
+
 
     userId:
       payload.userId,
 
+
     tokenHash:
       await hashToken(
+
         newRefreshToken
+
       ),
+
 
     expiresAt:
       getRefreshExpiryDate(),
 
+
   });
+
 
 
 
@@ -374,7 +528,14 @@ export async function refreshAccessToken(
       userId:
         payload.userId,
 
+
+      role:
+        payload.role,
+
+
     });
+
+
 
 
 
@@ -382,12 +543,16 @@ export async function refreshAccessToken(
 
   return {
 
+
     accessToken,
+
 
     refreshToken:
       newRefreshToken,
 
+
   };
+
 
 }
 
@@ -400,15 +565,21 @@ export async function refreshAccessToken(
 
 
 export async function logoutUser(
-  refreshToken: string
-) {
 
+  refreshToken:string
+
+) {
 
 
   const payload =
     verifyRefreshToken(
+
       refreshToken
+
     );
+
+
+
 
 
 
@@ -423,11 +594,95 @@ export async function logoutUser(
 
 
 
+
+
+
   return {
+
 
     message:
       'Logged out successfully',
 
+
   };
+
+
+}
+
+
+
+
+
+
+
+
+
+export async function getCurrentUser(
+
+  userId:string
+
+) {
+
+
+  const user =
+    await UserModel.findById(
+
+      userId
+
+    );
+
+
+
+
+
+
+
+  if(!user){
+
+
+    throw new Error(
+
+      'User not found'
+
+    );
+
+
+  }
+
+
+
+
+
+
+
+  return {
+
+
+    id:
+      user._id.toString(),
+
+
+    name:
+      user.name,
+
+
+    email:
+      user.email,
+
+
+    role:
+      user.role,
+
+
+    isActive:
+      user.isActive,
+
+
+    createdAt:
+      user.createdAt,
+
+
+  };
+
 
 }

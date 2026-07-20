@@ -76,7 +76,10 @@
     "logger",
     "api-client",
     "users",
-    "common"
+    "common",
+    "challenges",
+    "orders",
+    "payments"
   ],
   "dependencies": {
     "express": "^5.1.0",

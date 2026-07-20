@@ -11,24 +11,37 @@ import type {
 
 
 
-interface JwtPayload {
+export interface JwtPayload {
+
   userId: string;
+
+  role: 'user' | 'admin';
+
 }
 
 
 
 
+
 const accessTokenOptions: SignOptions = {
+
   expiresIn:
     config.jwt.expiresIn as SignOptions['expiresIn'],
+
 };
+
+
 
 
 
 const refreshTokenOptions: SignOptions = {
+
   expiresIn:
     config.jwt.refreshExpiresIn as SignOptions['expiresIn'],
+
 };
+
+
 
 
 
@@ -40,12 +53,18 @@ export function signAccessToken(
 
 
   return jwt.sign(
+
     payload,
+
     config.jwt.secret,
+
     accessTokenOptions
+
   );
 
 }
+
+
 
 
 
@@ -57,12 +76,18 @@ export function signRefreshToken(
 
 
   return jwt.sign(
+
     payload,
+
     config.jwt.refreshSecret,
+
     refreshTokenOptions
+
   );
 
 }
+
+
 
 
 
@@ -74,11 +99,16 @@ export function verifyAccessToken(
 
 
   return jwt.verify(
+
     token,
+
     config.jwt.secret
+
   ) as JwtPayload;
 
 }
+
+
 
 
 
@@ -90,8 +120,11 @@ export function verifyRefreshToken(
 
 
   return jwt.verify(
+
     token,
+
     config.jwt.refreshSecret
+
   ) as JwtPayload;
 
 }

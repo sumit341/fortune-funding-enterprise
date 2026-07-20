@@ -1,25 +1,26 @@
 import type {
+  Request,
   Response,
+  NextFunction,
 } from 'express';
 
 
-import type {
-  AuthRequest,
-} from '../../middleware/auth.js';
-
-
 import {
-  getUserById,
+  getCurrentUser as getUserById,
 } from './users.service.js';
 
 
 
-export async function getMe(
-  req: AuthRequest,
-  res: Response
-) {
+export async function getCurrentUser(
+
+  req: Request,
+  res: Response,
+  next: NextFunction
+
+): Promise<void> {
 
   try {
+
 
     const userId =
       req.user?.userId;
@@ -27,18 +28,19 @@ export async function getMe(
 
     if (!userId) {
 
-      return res
-        .status(401)
-        .json({
+      res.status(401).json({
 
-          success:false,
+        success:false,
 
-          message:
-            'Unauthorized',
+        message:
+          'Unauthorized',
 
-        });
+      });
+
+      return;
 
     }
+
 
 
     const user =
@@ -47,27 +49,20 @@ export async function getMe(
       );
 
 
-    return res.json({
+
+    res.status(200).json({
 
       success:true,
 
-      user,
+      data:user,
 
     });
 
 
-  } catch (error) {
 
-    return res
-      .status(500)
-      .json({
+  } catch(error) {
 
-        success:false,
-
-        message:
-          'Failed to fetch user',
-
-      });
+    next(error);
 
   }
 

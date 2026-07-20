@@ -4,13 +4,18 @@ import type {
   NextFunction,
 } from 'express';
 
+
 import {
   AppError,
 } from '@fortune-funding/common';
 
+
 import {
   logger,
 } from '@fortune-funding/logger';
+
+
+
 
 
 export function errorHandler(
@@ -18,50 +23,94 @@ export function errorHandler(
   req: Request,
   res: Response,
   _next: NextFunction
-) {
+): Response {
 
 
   logger.error(
+
     {
+
       error,
+
       requestId:
         req.requestId,
+
+      method:
+        req.method,
+
+      url:
+        req.originalUrl,
+
     },
+
     'Request failed'
+
   );
+
+
+
 
 
   if(error instanceof AppError) {
 
-    return res.status(
-      error.statusCode
-    ).json({
 
-      success:false,
+    return res
+      .status(
+        error.statusCode
+      )
+      .json({
 
-      error:{
-        code:error.code,
-        message:error.message,
-        details:error.details,
-      },
+        success:false,
 
-      requestId:
-        req.requestId,
-    });
+
+        error:{
+
+          code:
+            error.code,
+
+          message:
+            error.message,
+
+          details:
+            error.details,
+
+        },
+
+
+        requestId:
+          req.requestId,
+
+      });
+
 
   }
 
 
-  return res.status(500).json({
 
-    success:false,
 
-    error:{
-      code:'INTERNAL_ERROR',
-      message:'Internal server error',
-    },
 
-    requestId:
-      req.requestId,
-  });
+  return res
+    .status(500)
+    .json({
+
+      success:false,
+
+
+      error:{
+
+        code:
+          'INTERNAL_SERVER_ERROR',
+
+        message:
+          'Something went wrong',
+
+      },
+
+
+      requestId:
+        req.requestId,
+
+    });
+
+
 }

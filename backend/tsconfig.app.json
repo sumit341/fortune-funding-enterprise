@@ -20,6 +20,15 @@
   ],
   "references": [
     {
+      "path": "../payments/tsconfig.lib.json"
+    },
+    {
+      "path": "../orders/tsconfig.lib.json"
+    },
+    {
+      "path": "../challenges/tsconfig.lib.json"
+    },
+    {
       "path": "../common/tsconfig.lib.json"
     },
     {

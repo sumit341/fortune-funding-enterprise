@@ -3,25 +3,18 @@ import {
 } from '@fortune-funding/database';
 
 
-import type {
-  UpdateProfileInput,
-} from './users.schema.js';
 
-
-
-export async function getUserById(
-  userId:string
+export async function getCurrentUser(
+  userId: string
 ) {
 
   const user =
-    await UserModel
-      .findById(userId)
-      .select(
-        '-passwordHash'
-      );
+    await UserModel.findById(
+      userId
+    );
 
 
-  if(!user){
+  if (!user) {
 
     throw new Error(
       'User not found'
@@ -30,47 +23,26 @@ export async function getUserById(
   }
 
 
-  return user;
+  return {
 
-}
+    id:
+      user._id.toString(),
 
+    name:
+      user.name,
 
+    email:
+      user.email,
 
+    role:
+      user.role,
 
+    isActive:
+      user.isActive,
 
-export async function updateUserProfile(
-  userId:string,
-  data:UpdateProfileInput
-){
+    createdAt:
+      user.createdAt,
 
-  const user =
-    await UserModel
-      .findByIdAndUpdate(
-
-        userId,
-
-        data,
-
-        {
-          new:true,
-          runValidators:true,
-        }
-
-      )
-      .select(
-        '-passwordHash'
-      );
-
-
-  if(!user){
-
-    throw new Error(
-      'User not found'
-    );
-
-  }
-
-
-  return user;
+  };
 
 }

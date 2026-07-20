@@ -3,13 +3,15 @@ import {
 } from 'express';
 
 
+
 import {
   authMiddleware,
 } from '../../middleware/auth.js';
 
 
+
 import {
-  getMe,
+  getCurrentUser,
 } from './users.controller.js';
 
 
@@ -20,7 +22,11 @@ export const usersRouter =
 
 
 usersRouter.get(
+
   '/me',
+
   authMiddleware,
-  getMe
+
+  getCurrentUser
+
 );
