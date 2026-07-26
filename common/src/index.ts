@@ -9,3 +9,5 @@ export * from './pagination/index.js';
 export * from './errors/index.js';
 
 export * from './enums/user-role.js';
+
+export * from './enums/challenge-type.js';

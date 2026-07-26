@@ -8,7 +8,7 @@ import {
 
 import {
   ChallengeType,
-} from '../enums/challenge-type.js';
+} from '@fortune-funding/common';
 
 export interface ChallengeRules {
 

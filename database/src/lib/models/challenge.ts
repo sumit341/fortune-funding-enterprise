@@ -4,6 +4,10 @@ import {
   type InferSchemaType,
 } from 'mongoose';
 
+import {
+  ChallengeType,
+} from '@fortune-funding/common';
+
 const challengeSchema =
   new Schema(
     {
@@ -12,14 +16,18 @@ const challengeSchema =
         type: String,
         required: true,
         trim: true,
+        unique: true,
       },
 
-      accountSize: {
-        type: Number,
+      type: {
+        type: String,
+        enum: Object.values(
+          ChallengeType
+        ),
         required: true,
       },
 
-      price: {
+      accountSize: {
         type: Number,
         required: true,
       },
@@ -44,14 +52,14 @@ const challengeSchema =
         required: true,
       },
 
-      maxTradingDays: {
+      minimumTradingDays: {
         type: Number,
         required: true,
       },
 
-      description: {
-        type: String,
-        default: '',
+      maximumTradingDays: {
+        type: Number,
+        required: true,
       },
 
       isActive: {

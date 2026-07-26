@@ -2,8 +2,7 @@ import { z } from 'zod';
 
 import {
   ChallengeType,
-} from '../enums/challenge-type.js';
-
+} from '@fortune-funding/common';
 export const createChallengeSchema = z.object({
 
   name: z.string().trim().min(2).max(100),
