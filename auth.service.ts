@@ -202,14 +202,7 @@ export async function loginUser(
       .select('+passwordHash');
 
 
-console.log('====================');
-console.log('LOGIN EMAIL:', data.email);
-console.log('USER:', user);
 
-if (user) {
-  console.log('PASSWORD HASH:', user.passwordHash);
-}
-console.log('====================');
 
 
 
@@ -240,8 +233,7 @@ console.log('====================');
       user.passwordHash
 
     );
-console.log('PASSWORD ENTERED:', data.password);
-console.log('PASSWORD VALID:', valid);
+
 
 
 

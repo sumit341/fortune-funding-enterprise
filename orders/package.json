@@ -16,6 +16,8 @@
     }
   },
   "dependencies": {
+    "@fortune-funding/database": "0.0.1",
+    "zod": "^4.1.11",
     "tslib": "^2.3.0"
   }
 }

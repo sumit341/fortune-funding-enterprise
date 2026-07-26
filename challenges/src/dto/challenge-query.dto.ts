@@ -3,41 +3,39 @@ import { z } from 'zod';
 export const challengeQuerySchema =
   z.object({
 
-    page: z
-      .coerce
-      .number()
-      .int()
-      .min(1)
-      .default(1),
+    page:
+      z.coerce
+        .number()
+        .default(1),
 
-    limit: z
-      .coerce
-      .number()
-      .int()
-      .min(1)
-      .max(100)
-      .default(10),
+    limit:
+      z.coerce
+        .number()
+        .default(20),
 
-    search: z
-      .string()
-      .trim()
-      .optional(),
+    search:
+      z
+        .string()
+        .optional(),
 
-    sortBy: z
-      .enum([
-        'name',
-        'price',
-        'accountSize',
-        'createdAt',
-      ])
-      .default('createdAt'),
+    sortBy:
+      z
+        .enum([
+          'createdAt',
+          'updatedAt',
+          'name',
+          'price',
+          'accountSize',
+        ])
+        .default('createdAt'),
 
-    order: z
-      .enum([
-        'asc',
-        'desc',
-      ])
-      .default('desc'),
+    order:
+      z
+        .enum([
+          'asc',
+          'desc',
+        ])
+        .default('desc'),
 
   });
 

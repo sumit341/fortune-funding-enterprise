@@ -1,69 +1,40 @@
 import type {
+  NextFunction,
   Request,
   Response,
-  NextFunction,
 } from 'express';
 
-
 import {
-  getCurrentUser as getUserById,
-} from './users.service.js';
-
-
+  userService,
+} from '@fortune-funding/users';
 
 export async function getCurrentUser(
-
   req: Request,
   res: Response,
   next: NextFunction
-
 ): Promise<void> {
-
   try {
-
-
-    const userId =
-      req.user?.userId;
-
+    const userId = req.user?.userId;
 
     if (!userId) {
-
       res.status(401).json({
-
-        success:false,
-
-        message:
-          'Unauthorized',
-
+        success: false,
+        message: 'Unauthorized',
       });
 
       return;
-
     }
 
-
-
     const user =
-      await getUserById(
+      await userService.findById(
         userId
       );
 
-
-
     res.status(200).json({
-
-      success:true,
-
-      data:user,
-
+      success: true,
+      data: user,
     });
-
-
-
-  } catch(error) {
-
+  } catch (error) {
     next(error);
-
   }
-
 }

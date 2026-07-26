@@ -16,6 +16,8 @@
     }
   },
   "dependencies": {
+    "@fortune-funding/common": "0.0.1",
+    "@fortune-funding/payments": "0.0.1",
     "mongoose": "^9.7.4",
     "tslib": "^2.3.0"
   }

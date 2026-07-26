@@ -1,3 +1,7 @@
+import {
+  UserRole,
+} from '@fortune-funding/common';
+
 export interface UserResponseDto {
 
   id: string;
@@ -6,7 +10,7 @@ export interface UserResponseDto {
 
   email: string;
 
-  role: string;
+  role: UserRole;
 
   isActive: boolean;
 

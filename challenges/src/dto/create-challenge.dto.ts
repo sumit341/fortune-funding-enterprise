@@ -1,54 +1,32 @@
 import { z } from 'zod';
 
-export const createChallengeSchema =
-  z.object({
+import {
+  ChallengeType,
+} from '../enums/challenge-type.js';
 
-    name: z
-      .string()
-      .trim()
-      .min(3)
-      .max(100),
+export const createChallengeSchema = z.object({
 
-    accountSize: z
-      .number()
-      .positive(),
+  name: z.string().trim().min(2).max(100),
 
-    price: z
-      .number()
-      .positive(),
+  type: z.nativeEnum(
+    ChallengeType,
+  ),
 
-    profitTarget: z
-      .number()
-      .positive(),
+  accountSize: z.number().positive(),
 
-    dailyLossLimit: z
-      .number()
-      .positive(),
+  profitTarget: z.number().positive(),
 
-    maxLossLimit: z
-      .number()
-      .positive(),
+  dailyLossLimit: z.number().positive(),
 
-    leverage: z
-      .number()
-      .positive(),
+  maxLossLimit: z.number().positive(),
 
-    maxTradingDays: z
-      .number()
-      .int()
-      .positive(),
+  leverage: z.number().positive(),
 
-    description: z
-      .string()
-      .trim()
-      .max(1000)
-      .optional(),
+  minimumTradingDays: z.number().int().positive(),
 
-    isActive: z
-      .boolean()
-      .default(true),
+  maximumTradingDays: z.number().int().positive(),
 
-  });
+});
 
 export type CreateChallengeDto =
   z.infer<

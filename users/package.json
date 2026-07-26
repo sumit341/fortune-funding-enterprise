@@ -2,6 +2,7 @@
   "name": "@fortune-funding/users",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -15,6 +16,9 @@
     }
   },
   "dependencies": {
+    "@fortune-funding/common": "0.0.1",
+    "@fortune-funding/database": "0.0.1",
+    "zod": "^4.1.11",
     "tslib": "^2.3.0"
   }
 }
