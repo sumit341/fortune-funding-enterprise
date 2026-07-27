@@ -1,189 +1,81 @@
+import {
+  PaymentModel,
+} from '@fortune-funding/database';
+
 import type {
-  PaymentQueryDto,
-  CreatePaymentDto,
-  UpdatePaymentDto,
-} from '../dto/index.js';
-
-
-
-const payments:any[] = [];
-
-
+  Payment,
+} from '@fortune-funding/database';
 
 export class PaymentRepository {
 
-
-
   async create(
-    data:CreatePaymentDto
+    data: Partial<Payment>
   ) {
 
-
-    const payment = {
-
-      id:
-        crypto.randomUUID(),
-
-      ...data,
-
-      createdAt:
-        new Date(),
-
-      updatedAt:
-        new Date(),
-
-    };
-
-
-    payments.push(
-      payment
+    return PaymentModel.create(
+      data
     );
 
-
-    return payment;
-
   }
-
-
-
-
 
   async findById(
-    id:string
+    id: string
   ) {
 
-
-    return payments.find(
-      payment =>
-        payment.id === id
-    );
+    return PaymentModel
+      .findById(id)
+      .exec();
 
   }
-
-
-
-
 
   async findMany(
-    query:PaymentQueryDto
+    filter: Record<string, unknown> = {}
   ) {
 
-
-    let result =
-      [...payments];
-
-
-
-    if(query.status){
-
-      result =
-        result.filter(
-          item =>
-            item.status === query.status
-        );
-
-    }
-
-
-
-    return {
-
-      data:result,
-
-      page:query.page,
-
-      limit:query.limit,
-
-      total:
-        result.length,
-
-    };
+    return PaymentModel
+      .find(filter)
+      .exec();
 
   }
-
-
-
-
 
   async update(
-    id:string,
-    data:UpdatePaymentDto
+    id: string,
+    data: Partial<Payment>
   ) {
 
-
-    const index =
-      payments.findIndex(
-        item =>
-          item.id === id
-      );
-
-
-
-    if(index === -1){
-
-      return null;
-
-    }
-
-
-
-    payments[index] = {
-
-      ...payments[index],
-
-      ...data,
-
-      updatedAt:
-        new Date(),
-
-    };
-
-
-
-    return payments[index];
+    return PaymentModel
+      .findByIdAndUpdate(
+        id,
+        data,
+        {
+          returnDocument: 'after',
+        }
+      )
+      .exec();
 
   }
-
-
-
-
 
   async delete(
-    id:string
+    id: string
   ) {
 
-
-    const index =
-      payments.findIndex(
-        item =>
-          item.id === id
-      );
-
-
-
-    if(index === -1){
-
-      return false;
-
-    }
-
-
-
-    payments.splice(
-      index,
-      1
-    );
-
-
-    return true;
+    return PaymentModel
+      .findByIdAndDelete(id)
+      .exec();
 
   }
 
+  async count(
+    filter: Record<string, unknown> = {}
+  ) {
 
+    return PaymentModel
+      .countDocuments(filter)
+      .exec();
+
+  }
 
 }
-
-
 
 export const paymentRepository =
   new PaymentRepository();

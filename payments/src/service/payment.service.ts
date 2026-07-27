@@ -1,194 +1,160 @@
 import {
-
   paymentRepository,
-
 } from '../repository/index.js';
 
-
-
 import {
-
   mapPayment,
-
 } from '../mapper/index.js';
 
-
-
 import type {
-
   CreatePaymentDto,
-
   UpdatePaymentDto,
-
   PaymentQueryDto,
-
 } from '../dto/index.js';
 
-
-
 import {
-
   PaymentNotFoundError,
-
 } from '../errors/index.js';
-
-
-
-
 
 export class PaymentService {
 
+  async create(
+    data: CreatePaymentDto
+  ) {
 
+    const payment =
+      await paymentRepository.create(
+        data
+      );
 
-async create(
-  data:CreatePaymentDto
-){
-
-  const payment =
-    await paymentRepository.create(
-      data
+    return mapPayment(
+      payment
     );
-
-
-  return mapPayment(
-    payment
-  );
-
-}
-
-
-
-
-
-
-
-async findById(
-  id:string
-){
-
-
-  const payment =
-    await paymentRepository.findById(
-      id
-    );
-
-
-  if(!payment){
-
-    throw new PaymentNotFoundError();
 
   }
 
+  async findById(
+    id: string
+  ) {
 
-  return mapPayment(
-    payment
-  );
+    const payment =
+      await paymentRepository.findById(
+        id
+      );
 
-}
+    if (!payment) {
 
+      throw new PaymentNotFoundError();
 
+    }
 
-
-
-
-
-async list(
-  query:PaymentQueryDto
-){
-
-  const result =
-    await paymentRepository.findMany(
-      query
+    return mapPayment(
+      payment
     );
 
+  }
 
-  return {
+  async list(
+    query: PaymentQueryDto
+  ) {
 
-    ...result,
+    const {
+      page,
+      limit,
+      status,
+    } = query;
 
-    data:
-      result.data.map(
-        mapPayment
-      ),
+    const filter: Record<string, unknown> = {};
 
-  };
+    if (status) {
+
+      filter.status = status;
+
+    }
+
+    const payments =
+      await paymentRepository.findMany(
+        filter
+      );
+
+    const total =
+      await paymentRepository.count(
+        filter
+      );
+
+    return {
+
+      data:
+        payments.map(
+          mapPayment
+        ),
+
+      meta: {
+
+        page,
+
+        limit,
+
+        total,
+
+        pages:
+          Math.ceil(
+            total / limit
+          ),
+
+      },
+
+    };
+
+  }
+
+  async update(
+    id: string,
+    data: UpdatePaymentDto
+  ) {
+
+    const payment =
+      await paymentRepository.update(
+        id,
+        data
+      );
+
+    if (!payment) {
+
+      throw new PaymentNotFoundError();
+
+    }
+
+    return mapPayment(
+      payment
+    );
+
+  }
+
+  async delete(
+    id: string
+  ) {
+
+    const payment =
+      await paymentRepository.delete(
+        id
+      );
+
+    if (!payment) {
+
+      throw new PaymentNotFoundError();
+
+    }
+
+    return {
+
+      success: true,
+
+    };
+
+  }
 
 }
-
-
-
-
-
-
-
-async update(
- id:string,
- data:UpdatePaymentDto
-){
-
-
- const payment =
-   await paymentRepository.update(
-     id,
-     data
-   );
-
-
-
- if(!payment){
-
-   throw new PaymentNotFoundError();
-
- }
-
-
-
- return mapPayment(
-   payment
- );
-
-}
-
-
-
-
-
-
-
-async delete(
- id:string
-){
-
-
- const deleted =
-   await paymentRepository.delete(
-     id
-   );
-
-
-
- if(!deleted){
-
-   throw new PaymentNotFoundError();
-
- }
-
-
-
- return {
-
-   success:true,
-
- };
-
-}
-
-
-
-}
-
-
-
 
 export const paymentService =
- new PaymentService();
+  new PaymentService();

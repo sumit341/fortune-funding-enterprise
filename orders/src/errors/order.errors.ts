@@ -1,39 +1,33 @@
+import {
+  AppError,
+} from '@fortune-funding/common';
+
 export class OrderNotFoundError
-extends Error {
+  extends AppError {
 
-
-  constructor(){
+  constructor() {
 
     super(
-      'Order not found'
+      'Order not found',
+      404,
+      'ORDER_NOT_FOUND'
     );
 
-
-    this.name =
-      'OrderNotFoundError';
-
   }
-
 
 }
 
-
-
 export class OrderAlreadyExistsError
-extends Error {
+  extends AppError {
 
-
-  constructor(){
+  constructor() {
 
     super(
-      'Order already exists'
+      'Order already exists',
+      409,
+      'ORDER_ALREADY_EXISTS'
     );
 
-
-    this.name =
-      'OrderAlreadyExistsError';
-
   }
-
 
 }

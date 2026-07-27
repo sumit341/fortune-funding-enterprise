@@ -11,9 +11,6 @@
   "include": ["src/**/*.ts"],
   "references": [
     {
-      "path": "../payments/tsconfig.lib.json"
-    },
-    {
       "path": "../common/tsconfig.lib.json"
     }
   ],

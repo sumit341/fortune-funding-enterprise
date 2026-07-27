@@ -6,9 +6,11 @@ import type {
   Order,
 } from '@fortune-funding/database';
 
+import type {
+  OrderQueryDto,
+} from '../dto/index.js';
 
 export class OrderRepository {
-
 
   async create(
     data: Partial<Order>
@@ -20,8 +22,6 @@ export class OrderRepository {
 
   }
 
-
-
   async findById(
     id: string
   ) {
@@ -32,19 +32,68 @@ export class OrderRepository {
 
   }
 
-
-
   async findMany(
-    filter: Record<string, unknown> = {}
+    query: OrderQueryDto
   ) {
 
-    return OrderModel
-      .find(filter)
-      .exec();
+    const filter:
+      Record<string, unknown> = {};
+
+    if (query.status) {
+
+      filter.status =
+        query.status;
+
+    }
+
+    return OrderModel.find(
+      filter
+    )
+
+    .sort({
+
+      [query.sortBy]:
+        query.order === 'asc'
+          ? 1
+          : -1,
+
+    })
+
+    .skip(
+
+      (query.page - 1)
+      *
+      query.limit
+
+    )
+
+    .limit(
+      query.limit
+    )
+
+    .exec();
 
   }
 
+  async count(
+    query: OrderQueryDto
+  ) {
 
+    const filter:
+      Record<string, unknown> = {};
+
+    if (query.status) {
+
+      filter.status =
+        query.status;
+
+    }
+
+    return OrderModel
+      .countDocuments(filter)
+      .exec();
+
+  }
 
   async update(
     id: string,
@@ -56,17 +105,15 @@ export class OrderRepository {
         id,
         data,
         {
-          new:true,
+          new: true,
         }
       )
       .exec();
 
   }
 
-
-
   async delete(
-    id:string
+    id: string
   ) {
 
     return OrderModel
@@ -75,22 +122,7 @@ export class OrderRepository {
 
   }
 
-
-
-  async count(
-    filter:Record<string,unknown>={}
-  ){
-
-    return OrderModel
-      .countDocuments(filter)
-      .exec();
-
-  }
-
-
-
 }
-
 
 export const orderRepository =
   new OrderRepository();

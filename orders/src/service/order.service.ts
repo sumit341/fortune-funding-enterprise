@@ -12,10 +12,11 @@ import type {
   OrderQueryDto,
 } from '../dto/index.js';
 
-
+import {
+  OrderNotFoundError,
+} from '../errors/index.js';
 
 export class OrderService {
-
 
   async create(
     data: CreateOrderDto
@@ -26,17 +27,14 @@ export class OrderService {
         data
       );
 
-
     return orderMapper.toResponse(
       order
     );
 
   }
 
-
-
   async findById(
-    id:string
+    id: string
   ) {
 
     const order =
@@ -44,15 +42,11 @@ export class OrderService {
         id
       );
 
+    if (!order) {
 
-    if(!order){
-
-      throw new Error(
-        'Order not found'
-      );
+      throw new OrderNotFoundError();
 
     }
-
 
     return orderMapper.toResponse(
       order
@@ -60,92 +54,53 @@ export class OrderService {
 
   }
 
-
-
-
-
   async list(
-    query:OrderQueryDto
+    query: OrderQueryDto
   ) {
-
-
-    const {
-
-      page,
-
-      limit,
-
-      status,
-
-    } = query;
-
-
-
-    const filter:any = {};
-
-
-
-    if(status){
-
-      filter.status =
-        status;
-
-    }
-
-
 
     const orders =
       await orderRepository.findMany(
-        filter
+        query
       );
-
-
 
     const total =
       await orderRepository.count(
-        filter
+        query
       );
-
-
 
     return {
 
-
-      data:
+      items:
         orderMapper.toResponseList(
           orders
         ),
 
+      pagination: {
 
-      meta:{
+        page:
+          query.page,
 
-        page,
-
-        limit,
+        limit:
+          query.limit,
 
         total,
 
-        pages:
+        totalPages:
           Math.ceil(
-            total / limit
+            total /
+            query.limit
           ),
 
       },
 
-
     };
-
 
   }
 
-
-
-
-
   async update(
-    id:string,
-    data:UpdateOrderDto
-  ){
+    id: string,
+    data: UpdateOrderDto
+  ) {
 
     const order =
       await orderRepository.update(
@@ -153,17 +108,11 @@ export class OrderService {
         data
       );
 
+    if (!order) {
 
-
-    if(!order){
-
-      throw new Error(
-        'Order not found'
-      );
+      throw new OrderNotFoundError();
 
     }
-
-
 
     return orderMapper.toResponse(
       order
@@ -171,45 +120,30 @@ export class OrderService {
 
   }
 
-
-
-
-
   async delete(
-    id:string
-  ){
-
+    id: string
+  ) {
 
     const order =
       await orderRepository.delete(
         id
       );
 
+    if (!order) {
 
-
-    if(!order){
-
-      throw new Error(
-        'Order not found'
-      );
+      throw new OrderNotFoundError();
 
     }
 
-
-
     return {
 
-      success:true,
+      success: true,
 
     };
 
-
   }
 
-
 }
-
-
 
 export const orderService =
   new OrderService();
