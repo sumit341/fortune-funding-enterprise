@@ -1,66 +1,163 @@
 import { create } from "zustand";
 
+
 interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: "user" | "admin";
+
+  id:string;
+
+  name:string;
+
+  email:string;
+
+  role:
+    | "user"
+    | "admin";
+
 }
+
+
 
 interface AuthState {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
 
-  login: (user: User, token: string) => void;
-  setUser: (user: User) => void;
-  setLoading: (loading: boolean) => void;
-  logout: () => void;
+
+  user:
+    | User
+    | null;
+
+
+  accessToken:
+    | string
+    | null;
+
+
+  refreshToken:
+    | string
+    | null;
+
+
+  isAuthenticated:boolean;
+
+
+
+  login:
+
+    (
+      user:User,
+      accessToken:string,
+      refreshToken:string
+    ) => void;
+
+
+
+  logout:
+    () => void;
+
+
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
 
-  token: localStorage.getItem("token"),
 
-  isAuthenticated: !!localStorage.getItem("token"),
 
-  isLoading: true,
+export const useAuthStore =
+create<AuthState>((set)=>({
 
-  login: (user, token) => {
-    localStorage.setItem("token", token);
+
+  user:null,
+
+
+  accessToken:
+    localStorage.getItem(
+      "accessToken"
+    ),
+
+
+
+  refreshToken:
+    localStorage.getItem(
+      "refreshToken"
+    ),
+
+
+
+  isAuthenticated:
+    !!localStorage.getItem(
+      "accessToken"
+    ),
+
+
+
+
+  login:
+
+  (
+    user,
+    accessToken,
+    refreshToken
+
+  )=>{
+
+
+    localStorage.setItem(
+      "accessToken",
+      accessToken
+    );
+
+
+    localStorage.setItem(
+      "refreshToken",
+      refreshToken
+    );
+
+
 
     set({
+
       user,
-      token,
-      isAuthenticated: true,
-      isLoading: false,
+
+      accessToken,
+
+      refreshToken,
+
+      isAuthenticated:true,
+
     });
+
+
   },
 
-  setUser: (user) => {
+
+
+
+
+  logout:()=>{
+
+
+    localStorage.removeItem(
+      "accessToken"
+    );
+
+
+    localStorage.removeItem(
+      "refreshToken"
+    );
+
+
+
     set({
-      user,
-      isAuthenticated: true,
-      isLoading: false,
-    });
-  },
 
-  setLoading: (loading) => {
-    set({
-      isLoading: loading,
-    });
-  },
+      user:null,
 
-  logout: () => {
-    localStorage.removeItem("token");
+      accessToken:null,
 
-    set({
-      user: null,
-      token: null,
-      isAuthenticated: false,
-      isLoading: false,
+      refreshToken:null,
+
+      isAuthenticated:false,
+
     });
-  },
+
+
+  }
+
+
+
 }));

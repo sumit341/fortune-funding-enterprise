@@ -1,24 +1,49 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useAuthStore } from "../../store/auth.store";
+import {
+  Navigate,
+  Outlet,
+} from "react-router-dom";
+
+import useAuth from "../../hooks/useAuth";
 
 
-export default function AdminRoute() {
+export default function AdminRoute(){
+
+  const {
+    user,
+    isAuthenticated,
+
+  } = useAuth();
 
 
-  const user =
-    useAuthStore(
-      (state)=>state.user
+
+  if(!isAuthenticated){
+
+    return (
+
+      <Navigate
+        to="/login"
+        replace
+      />
+
     );
 
-
-  if(!user){
-    return <Navigate to="/login" replace />;
   }
 
 
-  if(user.role !== "admin"){
-    return <Navigate to="/dashboard" replace />;
+
+  if(user?.role !== "admin"){
+
+    return (
+
+      <Navigate
+        to="/dashboard"
+        replace
+      />
+
+    );
+
   }
+
 
 
   return <Outlet />;

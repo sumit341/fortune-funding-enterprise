@@ -1,24 +1,43 @@
-import { useEffect } from "react";
-
 import { useAuthStore } from "../store/auth.store";
 
-export default function useAuth() {
-  const {
-    user,
-    token,
-    isAuthenticated,
-    logout,
-  } = useAuthStore();
 
-  useEffect(() => {
-    if (!token) {
-      logout();
-    }
-  }, [token, logout]);
+export default function useAuth() {
+
+  const user =
+    useAuthStore(
+      (state) => state.user
+    );
+
+
+  const accessToken =
+    useAuthStore(
+      (state) => state.accessToken
+    );
+
+
+  const isAuthenticated =
+    useAuthStore(
+      (state) => state.isAuthenticated
+    );
+
+
+  const logout =
+    useAuthStore(
+      (state) => state.logout
+    );
+
+
 
   return {
+
     user,
-    token,
+
+    accessToken,
+
     isAuthenticated,
+
+    logout,
+
   };
+
 }
