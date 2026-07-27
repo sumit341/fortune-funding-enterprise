@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 
-export default function AdminLayout() {
+export default function DashboardLayout() {
   return (
     <div className="min-h-screen">
-      <header>
-        <h1>Admin Panel</h1>
-      </header>
+      <nav>
+        <h2>Dashboard</h2>
+      </nav>
 
       <main>
         <Outlet />

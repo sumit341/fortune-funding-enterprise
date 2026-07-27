@@ -1,5 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 
+import MainLayout from "../layouts/MainLayout";
+import AuthLayout from "../layouts/AuthLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
+import AdminLayout from "../layouts/AdminLayout";
+
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
@@ -9,22 +14,54 @@ import Admin from "../pages/Admin/Admin";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
   },
+
   {
-    path: "/login",
-    element: <Login />,
+    path: "/",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+    ],
   },
-  {
-    path: "/register",
-    element: <Register />,
-  },
+
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <DashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+    ],
   },
+
   {
     path: "/admin",
-    element: <Admin />,
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <Admin />,
+      },
+    ],
+  },
+
+  {
+    path: "*",
+    element: <h1>404 - Page Not Found</h1>,
   },
 ]);
