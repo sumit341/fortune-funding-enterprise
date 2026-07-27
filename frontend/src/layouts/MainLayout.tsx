@@ -1,19 +1,28 @@
 import { Outlet } from "react-router-dom";
 
-export default function MainLayout() {
-  return (
-    <div className="min-h-screen">
-      <header>
-        <h1>Fortune Funding</h1>
-      </header>
 
-      <main>
-        <Outlet />
-      </main>
+export default function MainLayout(){
 
-      <footer>
-        <p>© Fortune Funding</p>
-      </footer>
-    </div>
-  );
+return (
+
+<div>
+
+<header>
+<h1>
+Fortune Funding
+</h1>
+</header>
+
+
+<main>
+
+<Outlet />
+
+</main>
+
+
+</div>
+
+);
+
 }

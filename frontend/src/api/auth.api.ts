@@ -18,3 +18,7 @@ export const loginApi = (data: LoginPayload) => {
 export const registerApi = (data: RegisterPayload) => {
   return api.post("/auth/register", data);
 };
+
+export const getCurrentUser = () => {
+  return api.get("/users/me");
+};
