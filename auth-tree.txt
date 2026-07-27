@@ -1,0 +1,50 @@
+Folder PATH listing
+Volume serial number is 00000218 304D:906C
+E:\PROJECTS\FORTUNEFUNDING\AUTH\SRC
+¦   index.ts
+¦   
++---constants
+¦       auth.constants.ts
+¦       
++---dto
+¦       auth-response.dto.ts
+¦       change-password.dto.ts
+¦       forgot-password.dto.ts
+¦       index.ts
+¦       login.dto.ts
+¦       refresh-token.dto.ts
+¦       register.dto.ts
+¦       reset-password.dto.ts
+¦       verify-email.dto.ts
+¦       
++---errors
+¦       auth.errors.ts
+¦       
++---interfaces
+¦       authenticated-user.ts
+¦       
++---lib
+¦       index.ts
+¦       jwt.ts
+¦       password.ts
+¦       tokens.ts
+¦       
++---mapper
+¦       auth.mapper.ts
+¦       
++---middleware
+¦       auth.middleware.ts
+¦       roles.middleware.ts
+¦       
++---service
+¦       auth.service.ts
+¦       
++---types
+¦       auth.types.ts
+¦       
++---utils
+¦       cookies.ts
+¦       
++---validators
+        auth.validator.ts
+        

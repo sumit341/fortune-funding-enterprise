@@ -10,31 +10,49 @@ interface AuthProviderProps {
 export default function AuthProvider({
   children,
 }: AuthProviderProps) {
-  const token = useAuthStore((state) => state.token);
-  const setUser = useAuthStore((state) => state.setUser);
-  const logout = useAuthStore((state) => state.logout);
-  const setLoading = useAuthStore((state) => state.setLoading);
+  const accessToken = useAuthStore(
+    (state) => state.accessToken
+  );
+
+  const refreshToken = useAuthStore(
+    (state) => state.refreshToken
+  );
+
+  const login = useAuthStore(
+    (state) => state.login
+  );
+
+  const logout = useAuthStore(
+    (state) => state.logout
+  );
 
   useEffect(() => {
-    const restoreSession = async () => {
-      if (!token) {
-        logout();
+    async function restoreSession() {
+      if (!accessToken) {
         return;
       }
 
       try {
         const response = await getCurrentUser();
 
-        setUser(response.data.user);
-      } catch {
+        login(
+          response.data.user,
+          accessToken,
+          refreshToken ?? ""
+        );
+      } catch (error) {
+        console.error(error);
         logout();
-      } finally {
-        setLoading(false);
       }
-    };
+    }
 
     restoreSession();
-  }, [token, setUser, logout, setLoading]);
+  }, [
+    accessToken,
+    refreshToken,
+    login,
+    logout,
+  ]);
 
-  return children;
+  return <>{children}</>;
 }

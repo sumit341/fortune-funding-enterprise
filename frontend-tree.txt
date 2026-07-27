@@ -1,0 +1,80 @@
+Folder PATH listing
+Volume serial number is 0000016B 304D:906C
+E:\PROJECTS\FORTUNEFUNDING\FRONTEND\SRC
+¦   main.tsx
+¦   styles.css
+¦   
++---api
+¦       auth.api.ts
+¦       axios.ts
+¦       challenge.api.ts
+¦       order.api.ts
+¦       payment.api.ts
+¦       
++---app
+¦       app.module.css
+¦       app.spec.tsx
+¦       app.tsx
+¦       nx-welcome.tsx
+¦       providers.tsx
+¦       router.tsx
+¦       
++---assets
+¦       .gitkeep
+¦       
++---components
+¦   +---auth
+¦   ¦       LoginForm.tsx
+¦   ¦       RegisterForm.tsx
+¦   ¦       
+¦   +---common
+¦   +---dashboard
+¦   +---forms
+¦   +---guards
+¦   ¦       AdminRoute.tsx
+¦   ¦       ProtectedRoute.tsx
+¦   ¦       
+¦   +---layout
+¦   ¦       Navbar.tsx
+¦   ¦       
+¦   +---ui
++---hooks
+¦       useAuth.ts
+¦       
++---layouts
+¦       AdminLayout.tsx
+¦       AuthLayout.tsx
+¦       DashboardLayout.tsx
+¦       MainLayout.tsx
+¦       
++---pages
+¦   +---Admin
+¦   ¦       Admin.tsx
+¦   ¦       
+¦   +---Challenges
+¦   +---Dashboard
+¦   ¦       Dashboard.tsx
+¦   ¦       
+¦   +---Home
+¦   ¦       Home.tsx
+¦   ¦       
+¦   +---Login
+¦   ¦       Login.tsx
+¦   ¦       
+¦   +---NotFound
+¦   +---Orders
+¦   +---Payments
+¦   +---Profile
+¦   +---Register
+¦           Register.tsx
+¦           
++---providers
+¦       AuthProvider.tsx
+¦       
++---store
+¦       auth.store.ts
+¦       
++---types
++---utils
+        constants.ts
+        

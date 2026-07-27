@@ -11,14 +11,21 @@ export interface RegisterPayload {
   password: string;
 }
 
-export const loginApi = (data: LoginPayload) => {
-  return api.post("/auth/login", data);
-};
+export const registerApi = (
+  data: RegisterPayload
+) =>
+  api.post(
+    "/auth/register",
+    data
+  );
 
-export const registerApi = (data: RegisterPayload) => {
-  return api.post("/auth/register", data);
-};
+export const loginApi = (
+  data: LoginPayload
+) =>
+  api.post(
+    "/auth/login",
+    data
+  );
 
-export const getCurrentUser = () => {
-  return api.get("/users/me");
-};
+export const getCurrentUser = () =>
+  api.get("/users/me");

@@ -1,0 +1,6 @@
+Folder PATH listing
+Volume serial number is 000001D8 304D:906C
+E:\PROJECTS\FORTUNEFUNDING\BACKEND\SRC\AUTH
+Invalid path - \PROJECTS\FORTUNEFUNDING\BACKEND\SRC\AUTH
+No subfolders exist 
+

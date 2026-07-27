@@ -1,0 +1,85 @@
+Folder PATH listing
+Volume serial number is 00000200 304D:906C
+E:\PROJECTS\FORTUNEFUNDING\BACKEND\SRC
+¦   main.ts
+¦   
++---app
+¦       app.ts
+¦       
++---assets
+¦       .gitkeep
+¦       
++---config
+¦       security.ts
+¦       
++---controllers
++---dto
++---interfaces
++---mappers
++---middleware
+¦   ¦   auth.ts
+¦   ¦   error-handler.ts
+¦   ¦   logger.ts
+¦   ¦   request-id.ts
+¦   ¦   role.ts
+¦   ¦   security.ts
+¦   ¦   validate.ts
+¦   ¦   
+¦   +---security
+¦           compression.ts
+¦           cors.ts
+¦           helmet.ts
+¦           rate-limit.ts
+¦           security.ts
+¦           
++---modules
+¦   +---admin
+¦   ¦       admin.controller.ts
+¦   ¦       admin.routes.ts
+¦   ¦       admin.schema.ts
+¦   ¦       admin.types.ts
+¦   ¦       
+¦   +---auth
+¦   ¦       auth.controller.ts
+¦   ¦       auth.routes.ts
+¦   ¦       auth.schema.ts
+¦   ¦       auth.service.ts
+¦   ¦       
+¦   +---challenges
+¦   ¦       challenges.controller.ts
+¦   ¦       challenges.routes.ts
+¦   ¦       challenges.types.ts
+¦   ¦       
+¦   +---orders
+¦   ¦       orders.controller.ts
+¦   ¦       orders.routes.ts
+¦   ¦       orders.schema.ts
+¦   ¦       orders.types.ts
+¦   ¦       
+¦   +---payments
+¦   ¦       payments.controller.ts
+¦   ¦       payments.routes.ts
+¦   ¦       payments.schema.ts
+¦   ¦       payments.types.ts
+¦   ¦       
+¦   +---users
+¦           users.controller.ts
+¦           users.routes.ts
+¦           users.schema.ts
+¦           users.types.ts
+¦           
++---repositories
++---routes
+¦       health.ts
+¦       index.ts
+¦       user.ts
+¦       
++---services
++---types
+¦       express.d.ts
+¦       
++---utils
+¦       pagination.ts
+¦       response.ts
+¦       
++---validators
