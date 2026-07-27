@@ -1,5 +1,28 @@
+packages:
+  - "packages/*"
+  - "frontend"
+  - "frontend-e2e"
+  - "backend"
+  - "ui"
+  - "types"
+  - "utils"
+  - "config"
+  - "database"
+  - "auth"
+  - "validation"
+  - "logger"
+  - "api-client"
+  - "users"
+  - "common"
+  - "challenges"
+  - "orders"
+  - "payments"
+
 allowBuilds:
-  '@swc/core': true
+  "@swc/core": true
+  argon2: true
   esbuild: true
+  mongodb-memory-server: true
+  msgpackr-extract: true
   nx: true
   unrs-resolver: true

@@ -16,7 +16,7 @@
     }
   },
   "dependencies": {
-    "@fortune-funding/common": "0.0.1",
+    "@fortune-funding/common": "workspace:*",
     "mongoose": "^9.7.4",
     "tslib": "^2.3.0"
   }
