@@ -1,0 +1,15 @@
+export default function EmptyTransactions() {
+  return (
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-12 text-center">
+
+      <h2 className="text-2xl font-bold">
+        No Transactions
+      </h2>
+
+      <p className="mt-3 text-zinc-400">
+        Your transaction history will appear here.
+      </p>
+
+    </div>
+  );
+}

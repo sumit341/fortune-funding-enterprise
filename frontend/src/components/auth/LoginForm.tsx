@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import { loginApi } from "../../api/auth.api";
+import { useLogin } from "../../hooks/auth/useLogin";
 import { useAuthStore } from "../../store/auth.store";
 
 const loginSchema = z.object({
@@ -24,6 +24,8 @@ export default function LoginForm() {
     (state) => state.login
   );
 
+  const loginMutation = useLogin();
+
   const {
     register,
     handleSubmit,
@@ -39,7 +41,8 @@ export default function LoginForm() {
     data: LoginFormData
   ) => {
     try {
-      const response = await loginApi(data);
+      const response =
+        await loginMutation.mutateAsync(data);
 
       const {
         user,
@@ -91,8 +94,13 @@ export default function LoginForm() {
         <p>{errors.password.message}</p>
       )}
 
-      <button disabled={isSubmitting}>
-        {isSubmitting
+      <button
+        disabled={
+          isSubmitting ||
+          loginMutation.isPending
+        }
+      >
+        {loginMutation.isPending
           ? "Logging in..."
           : "Login"}
       </button>

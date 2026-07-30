@@ -1,57 +1,51 @@
 import { ReactNode, useEffect } from "react";
 
-import { getCurrentUser } from "../api/auth.api";
+import { useCurrentUser } from "../hooks/auth/useCurrentUser";
 import { useAuthStore } from "../store/auth.store";
 
-interface AuthProviderProps {
+interface Props {
   children: ReactNode;
 }
 
 export default function AuthProvider({
   children,
-}: AuthProviderProps) {
-  const accessToken = useAuthStore(
-    (state) => state.accessToken
-  );
+}: Props) {
+  const {
+    data,
+    isSuccess,
+    isError,
+    isLoading,
+  } = useCurrentUser();
 
-  const refreshToken = useAuthStore(
-    (state) => state.refreshToken
-  );
-
-  const login = useAuthStore(
-    (state) => state.login
-  );
-
-  const logout = useAuthStore(
-    (state) => state.logout
-  );
+  const {
+    setUser,
+    logout,
+    setLoading,
+  } = useAuthStore();
 
   useEffect(() => {
-    async function restoreSession() {
-      if (!accessToken) {
-        return;
-      }
-
-      try {
-        const response = await getCurrentUser();
-
-        login(
-          response.data.user,
-          accessToken,
-          refreshToken ?? ""
-        );
-      } catch (error) {
-        console.error(error);
-        logout();
-      }
+    if (isLoading) {
+      setLoading(true);
+      return;
     }
 
-    restoreSession();
+    if (isSuccess) {
+      setUser(data);
+      setLoading(false);
+      return;
+    }
+
+    if (isError) {
+      logout();
+    }
   }, [
-    accessToken,
-    refreshToken,
-    login,
+    data,
+    isSuccess,
+    isError,
+    isLoading,
     logout,
+    setLoading,
+    setUser,
   ]);
 
   return <>{children}</>;

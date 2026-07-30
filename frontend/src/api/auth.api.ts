@@ -27,5 +27,27 @@ export const loginApi = (
     data
   );
 
+export const refreshApi = (
+  refreshToken: string
+) =>
+  api.post(
+    "/auth/refresh",
+    {
+      refreshToken,
+    }
+  );
+
+export const logoutApi = (
+  refreshToken: string
+) =>
+  api.post(
+    "/auth/logout",
+    {
+      refreshToken,
+    }
+  );
+
 export const getCurrentUser = () =>
-  api.get("/users/me");
+  api.get(
+    "/users/me"
+  );

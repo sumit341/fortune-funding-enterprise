@@ -1,0 +1,10 @@
+Folder PATH listing
+Volume serial number is 000001BD 304D:906C
+E:\PROJECTS\FORTUNEFUNDING\FRONTEND\SRC\LAYOUTS
+    AdminLayout.tsx
+    AuthLayout.tsx
+    DashboardLayout.tsx
+    MainLayout.tsx
+    
+No subfolders exist 
+
