@@ -80,4 +80,5 @@ export default function ContactForm() {
         {isPending ? "Sending..." : "Send Message"}
       </button>
     </form>
+  );
 }

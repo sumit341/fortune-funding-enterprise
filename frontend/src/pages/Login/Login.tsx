@@ -1,5 +1,13 @@
-import LoginForm from "../../components/auth/LoginForm";
+import LoginHeader from "./components/LoginHeader";
+import LoginForm from "./components/LoginForm";
+import LoginFooter from "./components/LoginFooter";
 
 export default function Login() {
-  return <LoginForm />;
+  return (
+    <>
+      <LoginHeader />
+      <LoginForm />
+      <LoginFooter />
+    </>
+  );
 }

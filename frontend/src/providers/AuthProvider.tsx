@@ -1,52 +1,42 @@
-import { ReactNode, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  type ReactNode,
+} from "react";
 
-import { useCurrentUser } from "../hooks/auth/useCurrentUser";
-import { useAuthStore } from "../store/auth.store";
+import { useAuthStore } from "../store/auth/auth.store";
+
+interface AuthContextValue {
+  initialized: boolean;
+}
+
+const AuthContext = createContext<AuthContextValue>({
+  initialized: false,
+});
 
 interface Props {
   children: ReactNode;
 }
 
-export default function AuthProvider({
-  children,
-}: Props) {
-  const {
-    data,
-    isSuccess,
-    isError,
-    isLoading,
-  } = useCurrentUser();
-
-  const {
-    setUser,
-    logout,
-    setLoading,
-  } = useAuthStore();
+export default function AuthProvider({ children }: Props) {
+  const setLoading = useAuthStore((state) => state.setLoading);
 
   useEffect(() => {
-    if (isLoading) {
-      setLoading(true);
-      return;
-    }
+    setLoading(false);
+  }, [setLoading]);
 
-    if (isSuccess) {
-      setUser(data);
-      setLoading(false);
-      return;
-    }
+  return (
+    <AuthContext.Provider
+      value={{
+        initialized: true,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
 
-    if (isError) {
-      logout();
-    }
-  }, [
-    data,
-    isSuccess,
-    isError,
-    isLoading,
-    logout,
-    setLoading,
-    setUser,
-  ]);
-
-  return <>{children}</>;
+export function useAuthProvider() {
+  return useContext(AuthContext);
 }

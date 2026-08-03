@@ -1,18 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { authService } from "../../services/auth.service";
+import { useAuthStore } from "../../store/auth/auth.store";
 
 export function useCurrentUser() {
-  return useQuery({
-    queryKey: ["current-user"],
-
-    queryFn: async () => {
-      const response =
-        await authService.currentUser();
-
-      return response.data.data;
-    },
-
-    retry: false,
-  });
+  return useAuthStore((state) => state.user);
 }

@@ -1,0 +1,29 @@
+.ff-app-shell {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: #0f172a;
+}
+
+.ff-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  border-right: 1px solid #1e293b;
+}
+
+.ff-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.ff-header {
+  height: 72px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.ff-content {
+  flex: 1;
+  overflow: auto;
+  padding: 24px;
+}

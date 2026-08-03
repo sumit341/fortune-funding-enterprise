@@ -1,20 +1,43 @@
 import { Outlet } from "react-router-dom";
 
-import Sidebar from "../components/dashboard/Sidebar";
-import Topbar from "../components/dashboard/Topbar";
+import {
+  AppShell,
+  Sidebar,
+  SidebarGroup,
+  SidebarItem,
+  Topbar,
+  PageContainer,
+} from "@fortune-funding/ui";
 
 export default function DashboardLayout() {
   return (
-    <div className="flex min-h-screen bg-zinc-950">
-      <Sidebar />
+    <AppShell
+      sidebar={
+        <Sidebar>
+          <SidebarGroup title="Main">
+            <SidebarItem label="Dashboard" to="/dashboard" />
+            <SidebarItem label="Challenges" to="/challenges" />
+          </SidebarGroup>
 
-      <div className="flex flex-1 flex-col">
-        <Topbar />
+          <SidebarGroup title="Trading">
+            <SidebarItem label="Accounts" to="/accounts" />
+            <SidebarItem label="Verification" to="/verification" />
+            <SidebarItem label="Payouts" to="/payouts" />
+          </SidebarGroup>
 
-        <main className="flex-1 overflow-auto p-8">
-          <Outlet />
-        </main>
-      </div>
-    </div>
+          <SidebarGroup title="Business">
+            <SidebarItem label="Affiliate" to="/affiliate" />
+            <SidebarItem label="Statistics" to="/statistics" />
+            <SidebarItem label="Resources" to="/resources" />
+            <SidebarItem label="Support" to="/support" />
+          </SidebarGroup>
+        </Sidebar>
+      }
+      header={<Topbar />}
+    >
+      <PageContainer>
+        <Outlet />
+      </PageContainer>
+    </AppShell>
   );
 }

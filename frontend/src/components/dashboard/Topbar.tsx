@@ -7,7 +7,7 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 
-import { useAuthStore } from "../../store/auth.store";
+import { useAuthStore } from "../../store/auth/auth.store";
 
 export default function Topbar() {
   const navigate = useNavigate();
